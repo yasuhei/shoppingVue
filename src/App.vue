@@ -1,14 +1,27 @@
 <template>
   <div id="nav">
-    <router-link to="/">Início</router-link> -
-    <router-link to="/basket">Carrinho (0)</router-link> 
+    <router-link to="/">Início</router-link> 
+    <router-link to="/product">Nossos produtos</router-link> 
+    <router-link to="/basket"><Icon icon="mdi-light:cart" width="32" />{{ this.productInBag.length }}</router-link> 
   </div>
   <router-view/>
 </template>
-
 <script>
 
+import { Icon } from '@iconify/vue';
+import { mapState } from 'vuex'
+
   export default {
+    components: {
+      Icon
+    },
+    created() {
+      this.$store.dispatch('loadProducts')
+      this.$store.dispatch('loadBag')
+    },
+    computed: mapState([
+      'productInBag'
+    ])
 
   }
   
@@ -23,7 +36,7 @@
   text-align: center;
   color: #2c3e50;
   max-width: 1280px;
-  margin: 80px auto;
+  margin: 68px auto;
 }
 
 #nav {
@@ -36,6 +49,9 @@
   text-align: center;
   background-color: rgb(37, 37, 37);
   color: white;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 
 
   a {
